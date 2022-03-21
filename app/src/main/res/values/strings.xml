@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Page Load Duration</string>
+    <string name="xml_view">Xml View</string>
+    <string name="compose_view">Compose View</string>
+</resources>
