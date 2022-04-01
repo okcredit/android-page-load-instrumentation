@@ -22,6 +22,7 @@ class PageLoadTracker {
                 }
                 nextDrawListener = view.get()!!.onNextDraw {
                     onFirstDraw.invoke()
+                    it.cancel()
                 }
             }
 
