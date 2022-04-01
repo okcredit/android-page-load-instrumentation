@@ -32,7 +32,7 @@ internal class NextDrawListener(
     }
 
     fun safelyRegisterForNextDraw(): NextDrawListener {
-        if (Build.VERSION.SDK_INT >= 26 || (view.viewTreeObserver.isAlive && view.isAttachedToWindowCompat)) {
+        if (Build.VERSION.SDK_INT >= 26 || (view.viewTreeObserver.isAlive && view.isAttachedToWindow)) {
             view.viewTreeObserver.addOnDrawListener(this)
         } else {
             view.addOnAttachStateChangeListener(this)
@@ -57,8 +57,3 @@ internal class NextDrawListener(
         }
     }
 }
-
-private val View.isAttachedToWindowCompat: Boolean
-    get() {
-        return isAttachedToWindow
-    }
