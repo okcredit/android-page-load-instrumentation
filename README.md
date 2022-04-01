@@ -16,19 +16,21 @@ dependencies {
 ```
 
 ### Usage
-Add `PageLoadTracker(window.decorView).onPageLoadListener()` at the start of onCreate() in Activity/Fragment. It should be before super.onCreate().
+Add `window.decorView.firstDrawListener(lifecycleScope)` at the start of onCreate() in Activity/Fragment. It should be called before super.onCreate(). On the next onDraw of the view, the callback is invoked.
 
 ```
+import androidx.lifecycle.lifecycleScope
+
+
 class YourActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val activityCreateTime = System.currentTimeMillis()
-        PageLoadTracker(window.decorView).onPageLoadListener {
-            Log.d("PageLoad", "Duration= ${System.currentTimeMillis() - activityCreateTime}")
+        window.decorView.firstDrawListener(lifecycleScope) {
+            Log.d("PageLoad", "Duration=${System.currentTimeMillis() - activityCreateTime}")
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.your_layout)
         ...
     }
 }

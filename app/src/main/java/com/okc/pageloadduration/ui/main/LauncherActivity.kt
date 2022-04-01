@@ -13,7 +13,7 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val activityCreateTime = System.currentTimeMillis()
-        lifecycleScope.firstDrawListener(window.decorView) {
+        window.decorView.firstDrawListener(lifecycleScope) {
             Log.d("PageLoad", "Duration=${System.currentTimeMillis() - activityCreateTime}")
         }
 
