@@ -40,15 +40,15 @@ class YourActivity : AppCompatActivity() {
 ### An overview of screen loading
 
 #### Activity
-![Activity Launch](images/activity_launch.jpg)
+![Activity Launch](images/activity_launch.webp)
 
 
 #### Fragment
-![Fragment Launch](images/fragment_launch.jpg)
+![Fragment Launch](images/fragment_launch.webp)
 
 
 #### Compose Activity
-![Compose Activity Launch](images/compose_launch.jpg)
+![Compose Activity Launch](images/compose_launch.webp)
 
 
 
