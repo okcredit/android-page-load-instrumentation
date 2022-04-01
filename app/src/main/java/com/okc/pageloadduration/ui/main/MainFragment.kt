@@ -19,7 +19,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val createTime = System.currentTimeMillis()
-        lifecycleScope.firstDrawListener(requireActivity().window.decorView) {
+        requireActivity().window.decorView.firstDrawListener(lifecycleScope) {
             Log.d("PageLoad", "Duration=${System.currentTimeMillis() - createTime}")
         }
     }
