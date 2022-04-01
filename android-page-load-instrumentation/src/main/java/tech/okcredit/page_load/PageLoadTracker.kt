@@ -1,14 +1,13 @@
 package tech.okcredit.page_load
 
 import android.view.View
-import java.util.concurrent.Executors
+import androidx.lifecycle.LifecycleCoroutineScope
+import kotlinx.coroutines.*
+import java.lang.ref.WeakReference
 
-class PageLoadTracker constructor(
-    private val view: View
-) {
+class PageLoadTracker {
 
     private var firstDrawListener: FirstDrawListener? = null
-    private var onStartInvoked = false
 
     private fun registerFirstDrawListener(
         view: View,
@@ -17,24 +16,39 @@ class PageLoadTracker constructor(
         return FirstDrawListener(view, firstDrawCallback)
     }
 
-    fun onPageLoadListener(onFirstDraw: () -> Unit) {
-        Executors.newSingleThreadExecutor().execute {
-
-            firstDrawListener =
-                registerFirstDrawListener(
-                    view,
-                    object : FirstDrawListener.OnFirstDrawCallback {
-                        override fun onDrawingFinish() {
-                            onFirstDraw.invoke()
-                            destroy()
+    suspend fun onFirstDrawListener(view: WeakReference<View>, onFirstDraw: () -> Unit) =
+        withContext(Dispatchers.Default) {
+            suspendCancellableCoroutine<Unit> {
+                it.invokeOnCancellation {
+                    firstDrawListener = null
+                }
+                if (view.get() == null) {
+                    it.cancel()
+                    return@suspendCancellableCoroutine
+                }
+                firstDrawListener =
+                    registerFirstDrawListener(
+                        view.get()!!,
+                        object : FirstDrawListener.OnFirstDrawCallback {
+                            override fun onDrawingFinish() {
+                                onFirstDraw.invoke()
+                                it.cancel()
+                            }
                         }
-                    }
-                )
-            onStartInvoked = true
-        }
-    }
+                    )
+            }
 
-    fun destroy() {
-        firstDrawListener = null
+        }
+}
+
+
+fun LifecycleCoroutineScope.firstDrawListener(
+    view: View,
+    onFirstDraw: () -> Unit
+) {
+    this.launch {
+        PageLoadTracker().onFirstDrawListener(WeakReference(view)) {
+            onFirstDraw.invoke()
+        }
     }
 }

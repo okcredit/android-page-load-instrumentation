@@ -8,16 +8,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import tech.okcredit.page_load.PageLoadTracker
+import androidx.lifecycle.lifecycleScope
+import tech.okcredit.page_load.firstDrawListener
 
 class ComposeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val activityCreateTime = System.currentTimeMillis()
-        PageLoadTracker(window.decorView).onPageLoadListener {
-            Log.d(
-                "PageLoad",
-                "Duration for Compose Activity = ${System.currentTimeMillis() - activityCreateTime}"
-            )
+        lifecycleScope.firstDrawListener(window.decorView) {
+            Log.d("PageLoad", "Duration=${System.currentTimeMillis() - activityCreateTime}")
         }
         super.onCreate(savedInstanceState)
         setContent {

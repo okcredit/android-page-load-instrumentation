@@ -6,8 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import tech.okcredit.page_load.PageLoadTracker
+import androidx.lifecycle.lifecycleScope
 import com.okc.pageloadduration.R
+import tech.okcredit.page_load.firstDrawListener
 
 class MainFragment : Fragment() {
 
@@ -17,12 +18,9 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fragmentCreateTime = System.currentTimeMillis()
-        PageLoadTracker(requireActivity().window.decorView).onPageLoadListener {
-            Log.d(
-                "PageLoad",
-                "Duration for Main Fragment = ${System.currentTimeMillis() - fragmentCreateTime}"
-            )
+        val createTime = System.currentTimeMillis()
+        lifecycleScope.firstDrawListener(requireActivity().window.decorView) {
+            Log.d("PageLoad", "Duration=${System.currentTimeMillis() - createTime}")
         }
     }
 

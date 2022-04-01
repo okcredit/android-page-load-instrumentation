@@ -30,5 +30,6 @@ android {
 }
 
 dependencies {
-
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 }
