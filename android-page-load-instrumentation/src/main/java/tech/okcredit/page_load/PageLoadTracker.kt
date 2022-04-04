@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 import tech.okcredit.page_load.NextDrawListener.Companion.onNextDraw
 import java.lang.ref.WeakReference
 
-class PageLoadTracker {
+internal class PageLoadTracker {
 
     private var nextDrawListener: NextDrawListener? = null
 
