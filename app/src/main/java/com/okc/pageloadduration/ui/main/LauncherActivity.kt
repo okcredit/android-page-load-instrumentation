@@ -5,18 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.okc.pageloadduration.R
-import tech.okcredit.page_load.PageLoadTracker
+import tech.okcredit.page_load.firstDrawListener
 
 class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val activityCreateTime = System.currentTimeMillis()
-        PageLoadTracker(window.decorView).onPageLoadListener {
-            Log.d(
-                "PageLoad",
-                "Duration for Launcher Activity = ${System.currentTimeMillis() - activityCreateTime}"
-            )
+        window.decorView.firstDrawListener(lifecycleScope) {
+            Log.d("PageLoad", "Duration=${System.currentTimeMillis() - activityCreateTime}")
         }
 
         super.onCreate(savedInstanceState)

@@ -3,18 +3,17 @@ package com.okc.pageloadduration.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import tech.okcredit.page_load.PageLoadTracker
+import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.okc.pageloadduration.R
+import tech.okcredit.page_load.firstDrawListener
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val activityCreateTime = System.currentTimeMillis()
-        PageLoadTracker(window.decorView).onPageLoadListener {
-            Log.d(
-                "PageLoad",
-                "Duration for Main Activity = ${System.currentTimeMillis() - activityCreateTime}"
-            )
+        window.decorView.firstDrawListener(lifecycleScope) {
+            Log.d("PageLoad", "Duration=${System.currentTimeMillis() - activityCreateTime}")
         }
 
         super.onCreate(savedInstanceState)

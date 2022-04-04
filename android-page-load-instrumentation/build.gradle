@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        minSdk 21
+        minSdk 19
         targetSdk 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,5 +30,6 @@ android {
 }
 
 dependencies {
-
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 }
