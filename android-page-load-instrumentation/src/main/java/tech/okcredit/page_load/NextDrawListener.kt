@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.ViewTreeObserver.OnDrawListener
+import java.lang.Exception
 
 
 internal class NextDrawListener(
@@ -32,10 +33,18 @@ internal class NextDrawListener(
     }
 
     fun safelyRegisterForNextDraw(): NextDrawListener {
-        if (Build.VERSION.SDK_INT >= 26 || (view.viewTreeObserver.isAlive && view.isAttachedToWindow)) {
-            view.viewTreeObserver.addOnDrawListener(this)
-        } else {
-            view.addOnAttachStateChangeListener(this)
+        /***  AddOnDrawListener can't be called inside onDraw. Due to some raise conditions,
+         * there is a crash for 0.005% of the time. So we are doing a post call for fixing this.*/
+        mainHandler.post {
+            try {
+                if (Build.VERSION.SDK_INT >= 26 || (view.viewTreeObserver.isAlive && view.isAttachedToWindow)) {
+                    view.viewTreeObserver.addOnDrawListener(this)
+                } else {
+                    view.addOnAttachStateChangeListener(this)
+                }
+            } catch (e: Exception) {
+
+            }
         }
         return this
     }
