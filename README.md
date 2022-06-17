@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.okcredit:android-page-load-instrumentation:alpha-1.0'
+    implementation 'com.github.okcredit:android-page-load-instrumentation:1.0'
 }
 ```
 
